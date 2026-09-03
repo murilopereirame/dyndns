@@ -1,0 +1,14 @@
+services:
+  dyndns:
+    build:
+      context: .
+      args:
+        - "PUID=${PUID:-1000}"
+        - "PGID=${PGID:-1000}"
+    container_name: "dyndns"
+    network_mode: "host"
+    restart: unless-stopped
+    environment:
+      - CONFIG_PATH=config.json
+    volumes:
+      - ./config.json:/app/config.json:ro

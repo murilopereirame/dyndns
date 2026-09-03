@@ -1,0 +1,36 @@
+name: 🧐 Tests
+on:
+  push:
+      branches:
+      - main
+  pull_request:
+      branches:
+      - main
+
+env:
+  GO_VERSION: 1.26.x
+
+jobs:
+  test:
+    name: 📁 Test DYNDNS
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+      - name: 🛠 Setup Go ${{ env.GO_VERSION }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: 🖥️ Display Go version
+        run: go version
+      - name: 🧰 Install dependencies
+        run: go mod download
+      - name: 🏗 Build
+        run: go build -v ./...
+      - name: 🔬 Test with the Go CLI
+        run: go test ./... -json > TestResults.json
+      - name: 📤 Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Go-Results
+          path: TestResults.json

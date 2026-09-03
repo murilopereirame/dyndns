@@ -1,0 +1,35 @@
+{
+  "interval": 60,
+  "webhook": {
+    "url": "",
+  	"secret": "",
+  	"authHeader": "",
+    "priority": "normal",
+  	"enabled": true
+  },
+  "router": {
+   	"endpoint": "",
+  	"user": "",
+  	"password": "",
+  	"ipv4": false,
+  	"ipv6": false
+  },
+  "domain": {
+    "domain": "",
+   	"token": "",
+   	"zoneId": "",
+   	"proxied": false
+  },
+  "nic": {
+   	"interface": "",
+  	"ipv4": false,
+  	"ipv6": true
+  },
+  "firewall": {
+   	"port": 3000,
+  	"name": "React",
+  	"protocol": "ALL",
+  	"onConflict": "OVERWRITE",
+    "enabled": true
+  }
+}
