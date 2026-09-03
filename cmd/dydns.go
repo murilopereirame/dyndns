@@ -62,7 +62,7 @@ func main() {
 		ZoneId:  loadedConfig.Domain.ZoneId,
 		Domain:  loadedConfig.Domain.Domain,
 		Proxied: loadedConfig.Domain.Proxied,
-		Client:  cloudflare.NewClient(option.WithAPIKey(loadedConfig.Domain.Token)),
+		Client:  cloudflare.NewClient(option.WithAPIEmail(loadedConfig.Domain.Email), option.WithAPIKey(loadedConfig.Domain.Token)),
 	}
 
 	nic := nic.NIC{

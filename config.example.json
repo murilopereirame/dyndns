@@ -16,6 +16,7 @@
   },
   "domain": {
     "domain": "",
+    "email": "",
    	"token": "",
    	"zoneId": "",
    	"proxied": false

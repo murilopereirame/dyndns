@@ -116,6 +116,7 @@ docker compose up -d --build
   },
   "domain": {
     "domain": "",
+    "email": "",
    	"token": "",
    	"zoneId": "",
    	"proxied": false
@@ -146,6 +147,7 @@ This config runs a check every 60 seconds, checking Cloudflare and the NIC for I
 | `router.ipv4` | bool | Use the router as the IPv4 address source. | No — defaults to `false`. |
 | `router.ipv6` | bool | Use the router as the IPv6 address source. | No — defaults to `false`. |
 | `domain.domain` | string | The DNS record name (e.g. `home.example.com`) to keep updated in Cloudflare. | **Yes** — always used (state is fetched from Cloudflare on startup). |
+| `domain.email` | string | Cloudflare API email with DNS edit permission for the zone. | **Yes** |
 | `domain.token` | string | Cloudflare API token with DNS edit permission for the zone. | **Yes** |
 | `domain.zoneId` | string | Cloudflare Zone ID that owns `domain.domain`. | **Yes** |
 | `domain.proxied` | bool | Whether the DNS record is proxied through Cloudflare (orange cloud). | No — defaults to `false`. |

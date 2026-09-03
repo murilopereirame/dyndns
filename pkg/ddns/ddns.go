@@ -129,7 +129,7 @@ func (d *DDNS) updateIPv6() (string, error) {
 	if d.Config.Router.IPv6 {
 		ipv6, err = d.Router.GetIPv6Address()
 	} else if d.Config.NIC.IPv6 {
-		ipv6, err = d.NIC.GetIPv4Address()
+		ipv6, err = d.NIC.GetIPv6Address()
 	}
 
 	if err != nil {

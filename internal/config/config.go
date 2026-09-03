@@ -27,6 +27,7 @@ type WebhookConfig struct {
 type DomainConfig struct {
 	Domain  string
 	Token   string
+	Email   string
 	ZoneId  string
 	Proxied bool
 }

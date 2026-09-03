@@ -2,6 +2,7 @@ package nic
 
 import (
 	"fmt"
+	"log/slog"
 	"net"
 	"net/netip"
 )
@@ -21,6 +22,8 @@ func (n *NIC) GetIPv4Address() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	slog.Info(fmt.Sprintf("Found %d addr for interface %s", len(addrs), n.Interface), "addrs", addrs)
 
 	for _, addr := range addrs {
 		ip := net.ParseIP(addr.String())
@@ -43,6 +46,8 @@ func (n *NIC) GetIPv6Address() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	slog.Info(fmt.Sprintf("Found %d addr for interface %s", len(addrs), n.Interface), "addrs", addrs)
 
 	for _, addr := range addrs {
 		ip, err := netip.ParseAddr(addr.String())
