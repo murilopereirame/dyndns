@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"net"
 	"net/netip"
+	"strings"
 )
 
 type NIC struct {
@@ -26,8 +27,9 @@ func (n *NIC) GetIPv4Address() (string, error) {
 	slog.Info(fmt.Sprintf("Found %d addr for interface %s", len(addrs), n.Interface), "addrs", addrs)
 
 	for _, addr := range addrs {
-		ip := net.ParseIP(addr.String())
-		if ip != nil && ip.To4() != nil {
+		ipParts := strings.Split(addr.String(), "/")
+		ip := net.ParseIP(ipParts[0])
+		if ip != nil && ip.To4() != nil && !ip.IsPrivate() {
 			return ip.String(), nil
 		}
 	}
@@ -50,12 +52,14 @@ func (n *NIC) GetIPv6Address() (string, error) {
 	slog.Info(fmt.Sprintf("Found %d addr for interface %s", len(addrs), n.Interface), "addrs", addrs)
 
 	for _, addr := range addrs {
-		ip, err := netip.ParseAddr(addr.String())
+		ipParts := strings.Split(addr.String(), "/")
+		ip, err := netip.ParseAddr(ipParts[0])
 		if err != nil {
+			slog.Warn("Invalid IP received", "ip", addr.String())
 			continue
 		}
 
-		if ip.Is6() && ip.IsGlobalUnicast() {
+		if ip.Is6() && ip.IsGlobalUnicast() && !ip.IsPrivate() {
 			return ip.String(), nil
 		}
 	}
