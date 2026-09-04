@@ -132,12 +132,12 @@ func (d *DDNS) updateIPv6() (string, error) {
 		ipv6, err = d.NIC.GetIPv6Address()
 	}
 
-	if err != nil {
+	if err != nil || ipv6 == "" {
 		slog.Error("Failed to fetch IPv6 address", "error", err)
 		return d.State.RemoteValues.IPv6, err
 	}
 
-	if ipv6 == "" || d.State.RemoteValues.IPv4 == "" || ipv6 == d.State.RemoteValues.IPv4 {
+	if ipv6 == d.State.RemoteValues.IPv6 {
 		return d.State.RemoteValues.IPv6, nil
 	}
 
