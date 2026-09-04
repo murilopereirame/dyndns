@@ -49,19 +49,23 @@ func fetchCurrentState(manager *zone_manager.ZoneManager) DDNSState {
 	ip4records, err := manager.FetchIPv4Records()
 
 	ipv4 := ""
-	if err == nil {
-		ipv4 = ip4records.Result[0].Content
-	} else {
+	if err != nil {
 		slog.Error("Failed to load IPv4 record from remote", "error", err)
+	} else if len(ip4records.Result) == 0 {
+		slog.Info("No IPv4 records found for zone")
+	} else {
+		ipv4 = ip4records.Result[0].Content
 	}
 
 	ip6records, err := manager.FetchIPv6Records()
 
 	ipv6 := ""
-	if err == nil {
-		ipv6 = ip6records.Result[0].Comment
-	} else {
+	if err != nil {
 		slog.Error("Failed to load IPv6 record from remote", "error", err)
+	} else if len(ip6records.Result) == 0 {
+		slog.Info("No IPv6 records found for zone")
+	} else {
+		ipv6 = ip6records.Result[0].Content
 	}
 
 	return DDNSState{

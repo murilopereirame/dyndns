@@ -34,7 +34,7 @@ func (z *ZoneManager) UpdateDNSRecord(ip string) error {
 	}
 
 	recordID := ipv4Entry.Result[0].ID
-	return z.updateRecord(recordID, ip)
+	return z.updateRecord(recordID, ip, RecordTypeA)
 }
 
 func (z *ZoneManager) UpdateDNS6Record(ip string) error {
@@ -55,7 +55,7 @@ func (z *ZoneManager) UpdateDNS6Record(ip string) error {
 	}
 
 	recordID := ipv6Entry.Result[0].ID
-	return z.updateRecord(recordID, ip)
+	return z.updateRecord(recordID, ip, RecordTypeAAAA)
 }
 
 func (z *ZoneManager) FetchIPv4Records() (*pagination.V4PagePaginationArray[dns.RecordResponse], error) {
@@ -98,7 +98,7 @@ func (z *ZoneManager) createRecord(ip string, entryType DNSRecord) error {
 	return nil
 }
 
-func (z *ZoneManager) updateRecord(recordID string, ip string) error {
+func (z *ZoneManager) updateRecord(recordID string, ip string, recordType DNSRecord) error {
 	_, err := z.Client.DNS.Records.Update(context.TODO(), recordID, dns.RecordUpdateParams{
 		ZoneID: cloudflare.F(z.ZoneId),
 		Body: dns.RecordUpdateParamsBody{
@@ -107,6 +107,7 @@ func (z *ZoneManager) updateRecord(recordID string, ip string) error {
 			Content: cloudflare.F(ip),
 			Proxied: cloudflare.F(z.Proxied),
 			Comment: cloudflare.F("Updated using murilopereirame/dyndns"),
+			Type:    cloudflare.F(dns.RecordUpdateParamsBodyType(recordType)),
 		},
 	})
 
